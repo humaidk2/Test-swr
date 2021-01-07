@@ -9,12 +9,15 @@ and how they can work together
 ### Server
 
 > npm install
+
 > nodemon server.ts
 
 ### Client
 
 > cd test-nextjs
+
 > npm install
+
 > npm run dev
 
 ## Technologies used
