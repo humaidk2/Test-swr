@@ -15,9 +15,9 @@ const fetcher = async function (url) {
   return data
 }
 export default function Home({ userData }) {
-  const { data, error } = useSWR('http://localhost:8080/users', fetcher, {
-    initialData: userData,
-  })
+  // const { data, error } = useSWR('http://localhost:8080/users', fetcher, {
+  //   initialData: userData,
+  // })
   const addJon = async (e) => {
     e.preventDefault()
     await fetcher('http://localhost:8080/addjon')
@@ -30,7 +30,7 @@ export default function Home({ userData }) {
       </Head>
 
       <ol>
-        {data.map((user) => (
+        {userData.map((user) => (
           <li key={user.id}>{user.name}</li>
         ))}
       </ol>
@@ -39,8 +39,12 @@ export default function Home({ userData }) {
   )
 }
 
-export const getServerSideProps: any = async () => {
+export async function getStaticProps() {
   // ...
   const userData = await fetcher('http://localhost:8080/users')
-  return { props: { userData } }
+  console.log('rebuilding page....')
+  return {
+    props: { userData: userData },
+    revalidate: 60 * 15,
+  }
 }
