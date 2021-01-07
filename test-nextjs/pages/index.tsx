@@ -15,9 +15,9 @@ const fetcher = async function (url) {
   return data
 }
 export default function Home({ userData }) {
-  // const { data, error } = useSWR('http://localhost:8080/users', fetcher, {
-  //   initialData: userData,
-  // })
+  const { data, error } = useSWR('http://localhost:8080/users', fetcher, {
+    initialData: userData,
+  })
   const addJon = async (e) => {
     e.preventDefault()
     await fetcher('http://localhost:8080/addjon')
@@ -39,12 +39,10 @@ export default function Home({ userData }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // ...
   const userData = await fetcher('http://localhost:8080/users')
-  console.log('rebuilding page....')
   return {
     props: { userData: userData },
-    revalidate: 60 * 15,
   }
 }
